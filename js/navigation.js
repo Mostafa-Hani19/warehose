@@ -76,22 +76,12 @@ function setupEventListeners() {
     // دوال مساعدة للقائمة المحمولة
     function openSidebar() {
         const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
         if (sidebar) sidebar.classList.add('open');
-        if (overlay) {
-            overlay.classList.remove('hidden');
-            overlay.classList.add('active');
-        }
         document.body.style.overflow = 'hidden';
     }
     function closeSidebar() {
         const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
         if (sidebar) sidebar.classList.remove('open');
-        if (overlay) {
-            overlay.classList.remove('active');
-            overlay.classList.add('hidden');
-        }
         document.body.style.overflow = '';
     }
     function toggleSidebar() {
@@ -104,17 +94,8 @@ function setupEventListeners() {
         }
     }
 
-    // القائمة المحمولة
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const sidebar = document.getElementById('sidebar');
-    
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleSidebar();
-        }, { passive: true });
-    }
+    // ملاحظة: التحكم في زر القائمة المحمولة (mobileMenuBtn) يتم في ملف ui-responsive.js
+    // لتجنب التعارض، لا نضيف event listener هنا
 
     // إغلاق القائمة المحمولة عند النقر خارجه (فقط إذا كانت مفتوحة)
     document.addEventListener('click', function(e) {
@@ -126,13 +107,6 @@ function setupEventListeners() {
         }
     });
 
-    // إغلاق القائمة عند النقر على الـ Overlay
-    const overlay = document.getElementById('sidebarOverlay');
-    if (overlay) {
-        overlay.addEventListener('click', function() {
-            closeSidebar();
-        }, { passive: true });
-    }
 
     // إغلاق عبر زر Esc
     document.addEventListener('keydown', function(e) {
@@ -259,8 +233,6 @@ function showPage(pageName, addToHistory = true) {
     if (window.innerWidth <= 1024) {
         const sidebar = document.getElementById('sidebar');
         if (sidebar && sidebar.classList.contains('open')) {
-            const overlay = document.getElementById('sidebarOverlay');
-            if (overlay) overlay.classList.add('hidden');
             sidebar.classList.remove('open');
             document.body.style.overflow = '';
         }
@@ -335,14 +307,9 @@ function showPage(pageName, addToHistory = true) {
  */
 function closeMobileMenu() {
     const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
     
     if (sidebar) {
         sidebar.classList.remove('open');
-    }
-    
-    if (overlay) {
-        overlay.classList.add('hidden');
     }
 
     // إعادة تفعيل تمرير الصفحة
@@ -372,12 +339,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     if (typeof optimizePerformanceForMobile === 'function') {
         optimizePerformanceForMobile();
-    }
-    if (typeof addSidebarOverlay === 'function') {
-        // إضافة overlay للشريط الجانبي إذا لزم الأمر
-        if (window.innerWidth <= 1024) {
-            addSidebarOverlay();
-        }
     }
     
     // تحميل البيانات من Supabase

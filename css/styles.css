@@ -569,8 +569,7 @@ body::-webkit-scrollbar {
     .header,
     .btn,
     .modal,
-    #mobileMenuBtn,
-    .sidebar-overlay {
+    #mobileMenuBtn {
         display: none !important;
     }
     
