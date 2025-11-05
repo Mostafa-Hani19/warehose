@@ -1,0 +1,88 @@
+/* أنماط الإحصائيات */
+
+.stats-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+/* تحسينات الشبكة للشاشات الكبيرة جداً */
+@media (min-width: 2560px) {
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* تحسينات الشبكة للشاشات الكبيرة */
+@media (min-width: 1920px) {
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+/* تحسينات الشبكة للشاشات المتوسطة الكبيرة */
+@media (min-width: 1440px) {
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* تحسينات الشبكة للشاشات المتوسطة */
+@media (max-width: 1440px) and (min-width: 1025px) {
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+/* تحسينات الشبكة للشاشات المتوسطة (التابلت) */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+/* تحسينات الشبكة للشاشات الصغيرة */
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}
+
+/* تحسينات الشبكة للشاشات الصغيرة جداً */
+@media (max-width: 480px) {
+    .stats-grid .card {
+        padding: 0.875rem;
+    }
+    
+    .stats-grid .card .text-2xl {
+        font-size: 1.25rem;
+    }
+    
+    .stats-grid .card .text-sm {
+        font-size: 0.7rem;
+    }
+    
+    .stats-grid .card i {
+        font-size: 1.25rem;
+    }
+}
+
+/* تحسينات الشبكة للشاشات الصغيرة جداً جداً */
+@media (max-width: 360px) {
+    .stats-grid .card {
+        padding: 0.75rem;
+    }
+    
+    .stats-grid .card .text-2xl {
+        font-size: 1.125rem;
+    }
+    
+    .stats-grid .card i {
+        font-size: 1.125rem;
+    }
+}

@@ -1,0 +1,81 @@
+/* أنماط الألوان الخاصة بالأدوية */
+
+/* ألوان النصوص */
+.text-good {
+    color: #10b981; /* green-500 */
+}
+
+.text-low {
+    color: #f59e0b; /* amber-500 */
+}
+
+.text-critical {
+    color: #ef4444; /* red-500 */
+}
+
+.text-medium {
+    color: #f59e0b; /* amber-500 */
+}
+
+/* خلفيات الكمية */
+.medicine-quantity-good {
+    background-color: #dcfce7; /* green-100 */
+    color: #10b981; /* green-500 */
+    border: 1px solid #bbf7d0; /* green-200 */
+}
+
+.medicine-quantity-low {
+    background-color: #ffedd5; /* amber-100 */
+    color: #f59e0b; /* amber-500 */
+    border: 1px solid #fed7aa; /* amber-200 */
+}
+
+.medicine-quantity-critical {
+    background-color: #fee2e2; /* red-100 */
+    color: #ef4444; /* red-500 */
+    border: 1px solid #fecaca; /* red-200 */
+}
+
+/* خلفيات تاريخ الانتهاء */
+.medicine-expiry-good {
+    background-color: #dcfce7; /* green-100 */
+    color: #10b981; /* green-500 */
+    border: 1px solid #bbf7d0; /* green-200 */
+}
+
+.medicine-expiring-soon-30 {
+    background-color: #ffedd5; /* amber-100 */
+    color: #f59e0b; /* amber-500 */
+    border: 1px solid #fed7aa; /* amber-200 */
+}
+
+.medicine-expiring-soon-90 {
+    background-color: #fef3c7; /* yellow-100 */
+    color: #eab308; /* yellow-500 */
+    border: 1px solid #fde68a; /* yellow-200 */
+}
+
+.medicine-expired {
+    background-color: #fee2e2; /* red-100 */
+    color: #ef4444; /* red-500 */
+    border: 1px solid #fecaca; /* red-200 */
+}
+
+/* تحسينات للشاشات التي تدعم الماوس */
+@media (hover: hover) and (pointer: fine) {
+    .medicine-row-expired:hover {
+        background-color: #f8fafc; /* القيمة الافتراضية عند التمرير */
+    }
+    
+    .medicine-row-expiring-soon:hover {
+        background-color: #f8fafc; /* القيمة الافتراضية عند التمرير */
+    }
+    
+    .medicine-row-critical-stock:hover {
+        background-color: #f8fafc; /* القيمة الافتراضية عند التمرير */
+    }
+    
+    .medicine-row-low-stock:hover {
+        background-color: #f8fafc; /* القيمة الافتراضية عند التمرير */
+    }
+}

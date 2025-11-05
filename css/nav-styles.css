@@ -1,0 +1,37 @@
+/* أنماط التنقل */
+
+.nav-item {
+    transition: all 0.2s ease-in-out;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(-2px);
+}
+
+.nav-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* تحسينات التنقل للشاشات التي تدعم اللمس */
+@media (hover: none) and (pointer: coarse) {
+    .nav-item {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* تحسينات التنقل للشاشات التي تدعم الماوس */
+@media (hover: hover) and (pointer: fine) {
+    .nav-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(-2px);
+    }
+}

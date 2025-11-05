@@ -1,0 +1,75 @@
+/* أنماط الكروت */
+
+.card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 1.5rem;
+}
+
+/* تحسينات الكروت للشاشات الكبيرة جداً */
+@media (min-width: 2560px) {
+    .card {
+        padding: 2rem;
+        border-radius: 1rem;
+    }
+}
+
+/* تحسينات الكروت للشاشات الكبيرة */
+@media (min-width: 1920px) {
+    .card {
+        padding: 1.5rem;
+        border-radius: 0.875rem;
+    }
+}
+
+/* تحسينات الكروت للشاشات المتوسطة الكبيرة */
+@media (min-width: 1440px) {
+    .card {
+        padding: 1.25rem;
+        border-radius: 0.75rem;
+    }
+}
+
+/* تحسينات الكروت للشاشات الصغيرة */
+@media (max-width: 640px) {
+    .card {
+        padding: 1rem;
+        margin: 0 0 1rem 0;
+        border-radius: 0.75rem;
+    }
+}
+
+/* تحسينات الكروت للشاشات الصغيرة جداً */
+@media (max-width: 480px) {
+    .card {
+        padding: 0.875rem;
+        margin: 0.5rem 0;
+        border-radius: 0.75rem;
+    }
+}
+
+/* تحسينات الكروت للشاشات الصغيرة جداً جداً */
+@media (max-width: 360px) {
+    .card {
+        padding: 0.75rem;
+        margin: 0.25rem 0;
+    }
+}
+
+/* تحسينات الكروت للشاشات التي تدعم الماوس */
+@media (hover: hover) and (pointer: fine) {
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* تحسينات الكروت للطباعة */
+@media print {
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #e5e7eb !important;
+        margin-bottom: 1rem !important;
+    }
+}

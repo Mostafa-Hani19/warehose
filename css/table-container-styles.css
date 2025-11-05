@@ -1,0 +1,26 @@
+/* أنماط حاويات الجداول */
+
+.table-container {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* تحسينات حاويات الجداول للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .table-container {
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* تحسينات الجداول */
+.table-hover tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* تحسينات الجداول للطباعة */
+@media print {
+    .table-container {
+        overflow: visible !important;
+    }
+}

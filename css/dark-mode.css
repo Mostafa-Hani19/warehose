@@ -1,0 +1,255 @@
+/**
+ * أنماط الوضع المظلم
+ * يتم تطبيقها تلقائياً عند تفعيل الوضع المظلم
+ */
+
+/* ==================== الوضع المظلم ==================== */
+.dark .bg-white {
+    background-color: #1f2937 !important;
+    color: #f9fafb;
+}
+
+.dark .bg-gray-50 {
+    background-color: #111827 !important;
+}
+
+/* خلفية أساسية للجسم والمحتوى */
+.dark body,
+.dark .main-content,
+.dark .content,
+.dark .page {
+    background-color: #0b1220 !important;
+    color: #e5e7eb;
+}
+
+.dark .bg-gray-100 {
+    background-color: #374151 !important;
+}
+
+.dark .text-gray-900 {
+    color: #f9fafb !important;
+}
+
+.dark .text-gray-800 {
+    color: #e5e7eb !important;
+}
+
+.dark .text-gray-700 {
+    color: #d1d5db !important;
+}
+
+.dark .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+.dark .text-gray-500 {
+    color: #6b7280 !important;
+}
+
+.dark .border-gray-200 {
+    border-color: #374151 !important;
+}
+
+.dark .border-gray-300 {
+    border-color: #4b5563 !important;
+}
+
+/* الهيدر والشريط العلوي */
+.dark header.header {
+    background-color: #0f172a !important;
+    border-color: #1f2937 !important;
+}
+.dark #mobileMenuBtn {
+    background-color: #0ea5e9 !important;
+}
+
+.dark .sidebar {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+}
+
+.dark .card {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+.dark .hover\:bg-gray-50:hover {
+    background-color: #374151 !important; /* gray-700 */
+}
+.dark .hover\:bg-blue-50:hover {
+    background-color: #1e3a8a !important; /* blue-800 */
+}
+.dark .table-hover tbody tr:hover {
+    background-color: #374151;
+}
+
+.dark table {
+    color: #e5e7eb;
+}
+.dark table thead th {
+    color: #d1d5db;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: #9ca3af;
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+    border-color: #3b82f6;
+    background-color: #374151;
+}
+
+.dark .btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.dark .btn-primary:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.dark .btn-secondary {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+.dark .btn-secondary:hover {
+    background-color: #4b5563;
+}
+
+/* أزرار عامة */
+.dark button:not(.btn-primary):not(.btn-secondary) {
+    color: #e5e7eb;
+}
+
+/* أنماط خاصة للجداول في الوضع المظلم */
+.dark table thead {
+    background-color: #374151;
+}
+
+.dark table tbody tr {
+    border-color: #374151;
+}
+
+/* أنماط خاصة للنماذج في الوضع المظلم */
+.dark .modal-content {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+.dark .modal {
+    backdrop-filter: blur(8px);
+}
+
+/* أنماط خاصة للإشعارات في الوضع المظلم */
+.dark .notification {
+    background-color: #374151;
+    color: #f9fafb;
+}
+
+/* أنماط خاصة للشريط الجانبي في الوضع المظلم */
+.dark .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .nav-item.active {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+.dark .nav-item { color: #e5e7eb; }
+.dark .nav-item i { color: #93c5fd; }
+
+/* أنماط خاصة للأزرار في الوضع المظلم */
+.dark button {
+    color: #f9fafb;
+}
+
+.dark button:hover {
+    background-color: #374151;
+}
+
+/* أنماط خاصة للبطاقات في الوضع المظلم */
+.dark .stats-grid .card {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+.dark .stats-grid .card:hover {
+    background-color: #374151;
+}
+
+/* الحواف والفواصل */
+.dark .border-gray-100 { border-color: #1f2937 !important; }
+.dark .border-gray-50 { border-color: #111827 !important; }
+
+/* أنماط خاصة للبحث في الوضع المظلم */
+.dark .search-input {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+.dark .search-input:focus {
+    border-color: #3b82f6;
+    background-color: #374151;
+}
+
+/* أنماط خاصة للفلاتر في الوضع المظلم */
+.dark select {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+.dark select:focus {
+    border-color: #3b82f6;
+    background-color: #374151;
+}
+
+/* أنماط خاصة للروابط في الوضع المظلم */
+.dark a {
+    color: #60a5fa;
+}
+
+.dark a:hover {
+    color: #3b82f6;
+}
+
+/* أنماط خاصة للتنبيهات في الوضع المظلم */
+.dark .bg-red-100 {
+    background-color: #7f1d1d !important;
+    color: #fca5a5 !important;
+}
+
+.dark .bg-yellow-100 {
+    background-color: #78350f !important;
+    color: #fcd34d !important;
+}
+
+.dark .bg-green-100 {
+    background-color: #14532d !important;
+    color: #86efac !important;
+}
+
+.dark .bg-blue-100 {
+    background-color: #1e3a8a !important;
+    color: #93c5fd !important;
+}
+
+/* الحقول المنسدلة داخل المودال */
+.dark .modal select option {
+    background-color: #1f2937;
+    color: #e5e7eb;
+}
+
+/* شريط التمرير */
+.dark ::-webkit-scrollbar-thumb { background-color: #374151; }
+.dark ::-webkit-scrollbar-track { background-color: #111827; }

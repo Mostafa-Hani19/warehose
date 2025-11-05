@@ -1,0 +1,52 @@
+/* أنماط الشريط العلوي */
+
+.header {
+    background: white;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+/* تحسينات الشريط العلوي للشاشات الصغيرة */
+@media (max-width: 640px) {
+    .header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .header .flex {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+/* تحسينات الشريط العلوي للشاشات الصغيرة جداً */
+@media (max-width: 480px) {
+    .header {
+        padding: 0.5rem 1rem;
+    }
+    
+    .header .flex {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+    
+    .user-actions {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        order: 1;
+    }
+}
+
+/* تحسينات الشريط العلوي للشاشات الصغيرة جداً جداً */
+@media (max-width: 360px) {
+    .header {
+        padding: 0.5rem 0.75rem;
+    }
+}

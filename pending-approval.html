@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>في انتظار الموافقة - نظام إدارة الصيدلية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .info-card:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-check {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.5);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+    
+    <div class="w-full max-w-4xl mx-auto">
+        <div class="glass-card rounded-3xl p-6 md:p-8">
+            <!-- أيقونة الانتظار -->
+            <div class="relative mb-6">
+                <div class="w-24 h-24 mx-auto relative">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full animate-pulse-glow"></div>
+                    <div class="absolute inset-2 bg-white rounded-full flex items-center justify-center shadow-xl">
+                        <i class="fas fa-hourglass-half text-4xl bg-gradient-to-br from-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse-glow"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- العنوان -->
+            <div class="text-center mb-6">
+                <h1 class="text-2xl md:text-3xl font-bold mb-2">
+                    <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        حسابك في انتظار الموافقة
+                    </span>
+                </h1>
+                <p class="text-gray-600 text-sm">شكراً لتسجيلك في نظام إدارة الصيدلية</p>
+            </div>
+            
+            <!-- رسالة الحالة -->
+            <div class="bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-4 mb-6">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-info-circle text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">تم إنشاء حسابك بنجاح!</h3>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            يجب أن يتم مراجعة حسابك والموافقة عليه من قبل المسؤول قبل أن تتمكن من الوصول إلى النظام.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- مراحل العملية -->
+            <div class="grid md:grid-cols-3 gap-3 mb-6">
+                <div class="info-card bg-white rounded-xl p-4 border border-gray-100 transition-all">
+                    <div class="flex items-start gap-2">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-check-circle text-green-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-sm mb-0.5">تم إرسال طلبك</h4>
+                            <p class="text-xs text-gray-600">سيتلقى المسؤول إشعاراً بالتسجيل</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card bg-white rounded-xl p-4 border border-gray-100 transition-all">
+                    <div class="flex items-start gap-2">
+                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-clock text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-sm mb-0.5">وقت المراجعة</h4>
+                            <p class="text-xs text-gray-600">عادة 24-48 ساعة</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card bg-white rounded-xl p-4 border border-gray-100 transition-all">
+                    <div class="flex items-start gap-2">
+                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-bell text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-sm mb-0.5">سنبلغك بالنتيجة</h4>
+                            <p class="text-xs text-gray-600">عبر البريد الإلكتروني</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- الأزرار -->
+            <div class="flex flex-col sm:flex-row gap-3 mb-5">
+                <button onclick="checkApprovalStatus()" 
+                        class="flex-1 btn-check text-white px-6 py-3 rounded-xl font-bold transition-all">
+                    <i class="fas fa-sync-alt ml-2"></i>
+                    التحقق من الحالة
+                </button>
+                
+                <a href="login.html" 
+                   class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-xl font-bold transition-all text-center border-2 border-gray-200">
+                    <i class="fas fa-sign-in-alt ml-2"></i>
+                    تسجيل الدخول
+                </a>
+            </div>
+            
+            <!-- معلومات الاتصال -->
+            <div class="text-center pt-4 border-t-2 border-gray-100">
+                <p class="text-gray-600 text-sm mb-1">
+                    <i class="fas fa-question-circle ml-1 text-purple-600"></i>
+                    هل تحتاج إلى مساعدة؟
+                </p>
+                <a href="mailto:support@pharmacy-system.com" 
+                   class="text-purple-600 hover:text-purple-800 font-bold transition-colors inline-flex items-center gap-2">
+                    <i class="fas fa-envelope"></i>
+                    تواصل معنا
+                </a>
+            </div>
+        </div>
+        
+        <!-- حقوق النشر -->
+        <div class="text-center mt-4">
+            <p class="text-white text-xs font-medium drop-shadow-lg">
+                © 2024 نظام إدارة الصيدلية
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/supabase-integration.js"></script>
+    <script>
+        if (typeof initSupabaseClient === 'function') {
+            initSupabaseClient();
+        }
+        
+        // مراقبة حالة الموافقة في الوقت الفعلي
+        const user = getCurrentUser();
+        
+        if (user && user.id) {
+            const client = getSupabaseClient();
+            
+            // 1. الاشتراك في Realtime Updates
+            if (client) {
+                const subscription = client
+                    .channel(`user-approval-pending-${user.id}`)
+                    .on(
+                        'postgres_changes',
+                        {
+                            event: 'UPDATE',
+                            schema: 'public',
+                            table: 'users',
+                            filter: `id=eq.${user.id}`
+                        },
+                        (payload) => {
+                            console.log('🔔 تحديث في حالة المستخدم:', payload);
+                            
+                            // إذا تمت الموافقة
+                            if (payload.new && payload.new.is_approved === true) {
+                                console.log('✅ تمت الموافقة على حسابك!');
+                                
+                                // تحديث بيانات المستخدم
+                                const currentUser = getCurrentUser();
+                                if (currentUser) {
+                                    currentUser.is_approved = true;
+                                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                                }
+                                
+                                // إظهار رسالة
+                                alert('🎉 تمت الموافقة على حسابك ...');
+                                
+                                // الانتقال إلى النظام
+                                window.location.href = 'index.html';
+                            }
+                        }
+                    )
+                    .subscribe((status) => {
+                        if (status === 'SUBSCRIBED') {
+                            console.log('✅ تم الاشتراك في مراقبة حالة الموافقة (فوري)');
+                        } else if (status === 'CHANNEL_ERROR') {
+                            console.warn('⚠️ خطأ في Realtime، استخدام الطريقة الاحتياطية');
+                        }
+                    });
+                
+                // تنظيف الاشتراك عند إغلاق الصفحة
+                window.addEventListener('beforeunload', () => {
+                    if (subscription) {
+                        client.removeChannel(subscription);
+                    }
+                });
+            }
+            
+            // 2. التحقق الدوري كبديل (كل 15 ثانية)
+            setInterval(async function() {
+                if (!client) return;
+                
+                try {
+                    const { data, error } = await client
+                        .from('users')
+                        .select('is_approved')
+                        .eq('id', user.id)
+                        .single();
+                    
+                    if (error) {
+                        console.error('❌ خطأ في التحقق:', error);
+                        return;
+                    }
+                    
+                    if (data && data.is_approved === true) {
+                        console.log('✅ تم اكتشاف الموافقة عبر التحقق الدوري');
+                        
+                        const currentUser = getCurrentUser();
+                        if (currentUser) {
+                            currentUser.is_approved = true;
+                            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        }
+                        
+                        alert('🎉 تمت الموافقة على حسابك! جاري التحويل...');
+                        window.location.href = 'index.html';
+                    }
+                } catch (err) {
+                    console.error('❌ خطأ:', err);
+                }
+            }, 15000);
+            
+            console.log('✅ تم تفعيل مراقبة حالة الموافقة (فوري + دوري)');
+        }
+        
+        // زر التحقق اليدوي
+        async function checkApprovalStatus() {
+            const button = event.target; 
+            const originalText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i>جاري التحقق...';
+            
+            const user = getCurrentUser();
+            
+            if (!user) {
+                alert('يرجى تسجيل الدخول أولاً');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (typeof getSupabaseClient === 'function') {
+                const client = getSupabaseClient();
+                
+                try {
+                    const { data, error } = await client
+                        .from('users')
+                        .select('is_approved')
+                        .eq('id', user.id)
+                        .single();
+                    
+                    if (error) throw error;
+                    
+                    if (data && data.is_approved) {
+                        user.is_approved = true;
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                        alert('🎉 تمت الموافقة على حسابك! جاري التحويل...');
+                        window.location.href = 'index.html';
+                    } else {
+                        alert('حسابك لا يزال في انتظار الموافقة. يرجى المحاولة لاحقاً.');
+                    }
+                } catch (error) {
+                    console.error('خطأ في التحقق من حالة الموافقة:', error);
+                    alert('حدث خطأ أثناء التحقق من حالة الموافقة');
+                }
+            }
+            
+            button.disabled = false;
+            button.innerHTML = originalText;
+        }
+    </script>
+</body>
+</html>

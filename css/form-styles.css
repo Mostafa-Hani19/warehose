@@ -1,0 +1,49 @@
+/* أنماط النماذج */
+
+/* أنماط التحقق من صحة النماذج */
+.field-error-message {
+    color: #dc2626; /* red-600 */
+    font-size: 0.875rem; /* text-sm */
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.field-error-message.show {
+    display: block;
+}
+
+input.border-red-500,
+select.border-red-500,
+textarea.border-red-500 {
+    border-color: #dc2626 !important; /* red-600 */
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
+input.border-green-500,
+select.border-green-500,
+textarea.border-green-500 {
+    border-color: #10b981 !important; /* emerald-500 */
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+}
+
+/* تحسينات الإدخال للشاشات الصغيرة جداً */
+@media (max-width: 360px) {
+    input, select, textarea {
+        font-size: 1rem !important;
+        padding: 0.75rem !important;
+    }
+}
+
+/* تحسينات البحث */
+.search-container {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 640px) {
+    .search-input {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+}

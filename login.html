@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - نظام إدارة المخزن</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- بطاقة تسجيل الدخول -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <!-- العنوان -->
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-warehouse text-white text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900">تسجيل الدخول</h1>
+                <p class="text-gray-600 mt-2">سجل دخولك لإدارة المخزن والأدوية</p>
+            </div>
+
+            <!-- نموذج تسجيل الدخول -->
+            <form id="loginForm" class="space-y-6">
+                <!-- اسم المستخدم -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-user ml-2"></i>اسم المستخدم
+                    </label>
+                    <input type="text" 
+                           id="username" 
+                           required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="أدخل اسم المستخدم">
+                </div>
+
+                <!-- كلمة المرور -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-lock ml-2"></i>كلمة المرور
+                    </label>
+                    <input type="password" 
+                           id="password" 
+                           required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="أدخل كلمة المرور">
+                </div>
+
+                <!-- رسالة الخطأ -->
+                <div id="errorMessage" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"></div>
+
+                <!-- رسالة النجاح -->
+                <div id="successMessage" class="hidden bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm"></div>
+
+                <!-- زر تسجيل الدخول -->
+                <button type="submit" 
+                        id="loginButton"
+                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg">
+                    <i class="fas fa-sign-in-alt ml-2"></i>
+                    تسجيل الدخول
+                </button>
+            </form>
+
+            <!-- رابط التسجيل -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 text-sm">ليس لديك حساب؟</p>
+                <a href="register.html" class="text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center mt-1">
+                    <i class="fas fa-user-plus ml-1"></i>
+                    إنشاء حساب جديد
+                </a>
+            </div>
+        </div>
+
+        <!-- حقوق النشر -->
+        <div class="text-center mt-6 text-gray-600 text-sm">
+            <p>© 2024 نظام إدارة المخزن</p>
+        </div>
+    </div>
+
+    <!-- ملفات JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/supabase-integration.js"></script>
+    <script src="js/database.js"></script>
+    <script>
+        // تهيئة Supabase
+        if (typeof initSupabaseClient === 'function') {
+            initSupabaseClient();
+        }
+
+        // التحقق من تسجيل الدخول - إذا كان المستخدم مسجل دخول بالفعل، اتحويله للصفحة الرئيسية
+        if (typeof isLoggedIn === 'function' && isLoggedIn()) {
+            const user = getCurrentUser();
+            if (user && user.is_approved === false) {
+                window.location.href = 'pending-approval.html';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // معالج نموذج تسجيل الدخول
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const loginButton = document.getElementById('loginButton');
+            
+            // إخفاء الرسائل السابقة
+            errorMessage.classList.add('hidden');
+            successMessage.classList.add('hidden');
+            
+            // التحقق من الحقول
+            if (!username || !password) {
+                errorMessage.textContent = 'يرجى إدخال اسم المستخدم وكلمة المرور';
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+            
+            // إظهار حالة التحميل
+            loginButton.disabled = true;
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i>جاري تسجيل الدخول...';
+            
+            try {
+                // محاولة تسجيل الدخول
+                const user = await loginUser(username, password);
+                
+                if (user) {
+                    // نجح تسجيل الدخول
+                    successMessage.textContent = 'تم تسجيل الدخول بنجاح! جاري التحويل...';
+                    successMessage.classList.remove('hidden');
+                    
+                    // التحقق من حالة الموافقة
+                    if (user.is_approved === false) {
+                        setTimeout(() => {
+                            window.location.href = 'pending-approval.html';
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1000);
+                    }
+                } else {
+                    // فشل تسجيل الدخول
+                    errorMessage.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة';
+                    errorMessage.classList.remove('hidden');
+                    loginButton.disabled = false;
+                    loginButton.innerHTML = '<i class="fas fa-sign-in-alt ml-2"></i>تسجيل الدخول';
+                }
+            } catch (error) {
+                console.error('❌ خطأ في تسجيل الدخول:', error);
+                errorMessage.textContent = error.message || 'حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى.';
+                errorMessage.classList.remove('hidden');
+                loginButton.disabled = false;
+                loginButton.innerHTML = '<i class="fas fa-sign-in-alt ml-2"></i>تسجيل الدخول';
+            }
+        });
+    </script>
+</body>
+</html>
+

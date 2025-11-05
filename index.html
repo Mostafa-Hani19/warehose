@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة المخزن - الصيدلية</title>
+    <!-- أيقونة الموقع -->
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    <link rel="apple-touch-icon" href="assets/icon.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/table-styles.css">
+    <link rel="stylesheet" href="css/modal-styles.css">
+    <link rel="stylesheet" href="css/button-styles.css">
+    <link rel="stylesheet" href="css/form-styles.css">
+    <link rel="stylesheet" href="css/sidebar-styles.css">
+    <link rel="stylesheet" href="css/header-styles.css">
+    <link rel="stylesheet" href="css/card-styles.css">
+    <link rel="stylesheet" href="css/nav-styles.css">
+    <link rel="stylesheet" href="css/stats-styles.css">
+    <link rel="stylesheet" href="css/table-container-styles.css">
+    <link rel="stylesheet" href="css/medicine-colors.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="bg-gray-50">
+    
+    <!-- ============= الشريط الجانبي ============= -->
+    <aside class="fixed right-0 top-0 h-full w-64 sidebar text-white z-50 transition-transform duration-300 ease-in-out" id="sidebar">
+        <div class="p-6 relative">
+            <!-- زر الإغلاق للشاشات الصغيرة -->
+            <button id="sidebarCloseBtn" class="absolute top-4 left-4 md:hidden text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-colors z-10" title="إغلاق">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            
+            <!-- شعار النظام -->
+            <div class="flex items-center space-x-3 space-x-reverse mb-8">
+                <div class="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <img src="assets/icon.png" alt="شعار النظام" class="max-w-full max-h-full" />
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold">نظام المخزن</h1>
+                    <p class="text-sm text-blue-100">إدارة الأدوية</p>
+
+                </div>
+            </div>
+
+            <!-- قائمة التنقل -->
+            <nav class="space-y-2">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home w-5"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a href="#" class="nav-item" data-page="medicines">
+                    <i class="fas fa-pills w-5"></i>
+                    <span>الأدوية</span>
+                </a>
+                <a href="#" class="nav-item" data-page="companies">
+                    <i class="fas fa-building w-5"></i>
+                    <span>شركات الأدوية</span>
+                </a>
+                <a href="#" class="nav-item" data-page="orders">
+                    <i class="fas fa-shopping-cart w-5"></i>
+                    <span>الطلبات</span>
+                </a>
+                <a href="#" class="nav-item" data-page="company-details" style="display: none;">
+                    <i class="fas fa-building w-5"></i>
+                    <span>تفاصيل الشركة</span>
+                </a>
+                <a href="#" class="nav-item" data-page="incoming-orders">
+                    <i class="fas fa-box w-5"></i>
+                    <span>الطلبات الواردة</span>
+                </a>
+                <a href="#" class="nav-item" data-page="chat">
+                    <i class="fas fa-comments w-5"></i>
+                    <span>الشات</span>
+                </a>
+                <a href="#" class="nav-item" data-page="returns">
+                    <i class="fas fa-undo w-5"></i>
+                    <span>استرجاع الأدوية</span>
+                </a>
+                <a href="#" class="nav-item" data-page="contact">
+                    <i class="fas fa-envelope w-5"></i>
+                    <span>تواصل معنا</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- معلومات المستخدم -->
+        <div class="absolute bottom-0 right-0 left-0 p-4 border-t border-white border-opacity-20 user-info-footer">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white text-lg"></i>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium text-sm">محمد المخزن</p>
+                        <p class="text-xs text-blue-100">مدير المخزن</p>
+                    </div>
+                </div>
+                <a href="#" id="logoutBtn" class="text-white hover:bg-white hover:bg-opacity-10 p-2 rounded-lg transition-colors" title="تسجيل الخروج">
+                    <i class="fas fa-sign-out-alt text-lg"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- زر القائمة المحمولة -->
+    <button id="mobileMenuBtn" class="fixed top-4 right-4 z-50 bg-blue-600 text-white p-3 rounded-lg shadow-lg hover:bg-blue-700 transition md:hidden">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Overlay للشاشات الصغيرة -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden transition-opacity duration-300"></div>
+
+    <!-- ============= المحتوى الرئيسي ============= -->
+    <div class="mr-64 min-h-screen main-content transition-all duration-300 ease-in-out">
+        <!-- الشريط العلوي -->
+        <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40 header">
+            <div class="px-4 md:px-6 py-3 md:py-4">
+                <div class="flex items-center justify-between">
+                    <!-- زر فتح/إغلاق الشريط الجانبي -->
+                    <button id="sidebarToggle" class="text-gray-600 hover:text-blue-600 p-2 rounded-lg hidden md:block">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <!-- الإشعارات والمستخدم -->
+                    <div class="flex items-center space-x-3 md:space-x-4 space-x-reverse user-actions">
+                        <!-- زر تبديل الوضع المظلم -->
+                        <button id="darkModeToggle" onclick="toggleDarkMode()" class="text-gray-600 hover:text-blue-600 p-2 rounded-lg hover:bg-gray-100 transition-colors" title="تبديل الوضع المظلم">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- المحتوى -->
+        <main class="p-4 md:p-6 content">
+            
+            <!-- ============= صفحة الرئيسية ============= -->
+            <div id="dashboard-page" class="page">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900" id="userGreeting">مرحباً،</h2>
+                    <p class="text-gray-600">نظرة عامة على المخزن اليوم</p>
+                </div>
+
+                <!-- إحصائيات سريعة -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-6 mb-6 md:mb-8 stats-grid">
+                    <div class="bg-white p-6 rounded-lg card cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200" onclick="showPage('medicines')">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                                <i class="fas fa-pills text-blue-600 text-xl"></i>
+                            </div>
+                            <div class="mr-4">
+                                <p class="text-sm text-gray-600">إجمالي الأدوية</p>
+                                <p class="text-2xl font-bold text-gray-900" id="totalMedicines">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200" onclick="showPage('orders')">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+                                <i class="fas fa-shopping-cart text-green-600 text-xl"></i>
+                            </div>
+                            <div class="mr-4">
+                                <p class="text-sm text-gray-600">الطلبات الجديدة</p>
+                                <p class="text-2xl font-bold text-gray-900" id="totalOrders">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card cursor-pointer hover:shadow-lg hover:scale-105 hover:bg-yellow-50 transition-all duration-200" onclick="showExpiredMedicines()">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
+                            </div>
+                            <div class="mr-4">
+                                <p class="text-sm text-gray-600">أدوية منتهية الصلاحية</p>
+                                <p class="text-2xl font-bold text-gray-900" id="expiredMedicines">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card cursor-pointer hover:shadow-lg hover:scale-105 hover:bg-red-50 transition-all duration-200" onclick="showLowStockMedicines()">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-red-100 rounded-lg group-hover:bg-red-200 transition-colors">
+                                <i class="fas fa-box text-red-600 text-xl"></i>
+                            </div>
+                            <div class="mr-4">
+                                <p class="text-sm text-gray-600">نفاد المخزون</p>
+                                <p class="text-2xl font-bold text-gray-900" id="lowStockMedicines">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors">
+                                <i class="fas fa-building text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="mr-4">
+                                <p class="text-sm text-gray-600">عدد الشركات</p>
+                                <p class="text-2xl font-bold text-gray-900" id="totalSystemCompaniesDashboard">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- التنبيهات والإحصائيات -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-6 mb-4 md:mb-6">
+                    <div class="bg-white rounded-lg card p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-bell text-blue-600 ml-2"></i>التنبيهات
+                        </h3>
+                        <div class="space-y-3" id="alertsContainer">
+                            <p class="text-sm text-gray-600 text-center py-4">لا توجد تنبيهات حالياً</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg card p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-chart-bar text-green-600 ml-2"></i>إحصائيات مفصلة
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">إجمالي الأدوية المتوفرة</span>
+                                <span class="text-lg font-bold text-blue-600" id="totalMedicinesStats">0 دواء</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">عدد الشركات</span>
+                                <span class="text-lg font-bold text-indigo-600" id="totalCompanies">0 شركة</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">إجمالي الكمية</span>
+                                <span class="text-lg font-bold text-purple-600" id="totalQuantity">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- إجراءات سريعة -->
+                    <div class="bg-white rounded-lg card p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-bolt text-orange-600 ml-2"></i>إجراءات سريعة
+                        </h3>
+                        <div class="space-y-2">
+                            <button onclick="openAddMedicineModal()" class="w-full text-right px-4 py-2.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors font-medium text-sm">
+                                <i class="fas fa-plus ml-2"></i>إضافة دواء
+                            </button>
+                            <button onclick="openAddCompanyModal()" class="w-full text-right px-4 py-2.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors font-medium text-sm">
+                                <i class="fas fa-building ml-2"></i>إضافة شركة
+                            </button>
+                            <button onclick="showPage('medicines')" class="w-full text-right px-4 py-2.5 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-medium text-sm">
+                                <i class="fas fa-pills ml-2"></i>عرض الأدوية
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- الأدوية الأكثر حركة -->
+                <div class="grid grid-cols-1 lg:grid-cols-1 gap-3 md:gap-4 lg:gap-6 mb-4 md:mb-6">
+                    
+                    <!-- الأدوية الأكثر حركة -->
+                    <div class="bg-white rounded-lg card p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">
+                                <i class="fas fa-fire text-red-600 ml-2"></i>الأدوية الأكثر حركة
+                            </h3>
+                            <button onclick="showPage('medicines')" class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                                عرض الكل
+                            </button>
+                        </div>
+                        <div class="space-y-3" id="topMedicinesContainer">
+                            <p class="text-sm text-gray-600 text-center py-4">لا توجد بيانات حالياً</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============= صفحة الأدوية ============= -->
+            <div id="medicines-page" class="page hidden">
+                <!-- Header Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-1">إدارة الأدوية</h2>
+                            <p class="text-sm text-gray-500">إدارة ومتابعة مخزون الأدوية</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <!-- شريط البحث -->
+                            <div class="relative">
+                                <input type="text" placeholder="ابحث عن دواء..." 
+                                       class="w-64 pr-10 pl-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all search-input">
+                                <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                            <!-- الأزرار -->
+                            <button class="px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="exportMedicinesData()">
+                                <i class="fas fa-download ml-2"></i>تصدير
+                            </button>
+                            <button class="px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors" onclick="importMedicinesData()">
+                                <i class="fas fa-upload ml-2"></i>استيراد
+                            </button>
+                            <button class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium" onclick="openAddMedicineModal()">
+                                <i class="fas fa-plus ml-2"></i>إضافة دواء
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Table Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200">
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="barcode">
+                                        الباركود <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="name">
+                                        اسم الدواء <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="quantity">
+                                        الكمية <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="price">
+                                        السعر <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="expiryDate">
+                                        تاريخ الانتهاء <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="company">
+                                        الشركة <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="category">
+                                        الصنف <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-center py-3 px-4 font-semibold text-gray-700 text-sm">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="medicinesTableBody" class="divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============= صفحة شركات الأدوية ============= -->
+            <div id="companies-page" class="page hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">إدارة شركات الأدوية</h2>
+                    <button class="btn-primary text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200" onclick="openAddCompanyModal()">
+                        <i class="fas fa-plus ml-2"></i>إضافة شركة جديدة
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-lg card overflow-hidden table-container">
+                    <div class="overflow-x-auto table-responsive">
+                        <table class="w-full table-hover">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="text-right py-4 px-6 font-medium text-gray-600">اسم الشركة</th>
+                                    <th class="text-right py-4 px-6 font-medium text-gray-600">البريد الإلكتروني</th>
+                                    <th class="text-right py-4 px-6 font-medium text-gray-600">رقم التليفون</th>
+                                    <th class="text-right py-4 px-6 font-medium text-gray-600">العنوان</th>
+                                    <th class="text-right py-4 px-6 font-medium text-gray-600">عدد الأدوية</th>
+                                    <th class="text-right py-4 px-6 font-medium text-gray-600">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="companiesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============= صفحة الطلبات ============= -->
+            <div id="orders-page" class="page hidden">
+                <!-- Header Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-1">الطلبات المطلوبة</h2>
+                            <p class="text-sm text-gray-500">إدارة ومتابعة الطلبات الصادرة للشركات</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <!-- فلاتر -->
+                            <select id="orderStatusFilter" class="border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">جميع الحالات</option>
+                                <option value="pending">قيد الانتظار</option>
+                                <option value="confirmed">مؤكد</option>
+                                <option value="processing">قيد المعالجة</option>
+                                <option value="shipped">تم الشحن</option>
+                                <option value="delivered">تم التسليم</option>
+                                <option value="cancelled">ملغي</option>
+                            </select>
+                            
+                            <!-- شريط البحث -->
+                            <div class="relative">
+                                <input type="text" 
+                                       id="orderSearchInput" 
+                                       placeholder="ابحث برقم الطلب..." 
+                                       class="w-64 pr-10 pl-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                                <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                            
+                            <!-- زر إعادة تعيين -->
+                            <button id="resetOrderFiltersBtn" class="px-3 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            
+                            <!-- زر إنشاء طلب جديد -->
+                            <button onclick="showPage('create-order')" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                <i class="fas fa-plus ml-2"></i>إنشاء طلب جديد
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- إحصائيات الطلبات -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-6 mb-6">
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">إجمالي الطلبات</p>
+                                <p class="text-2xl font-bold text-gray-900" id="totalOrdersAmount">0 جنيه</p>
+                            </div>
+                            <i class="fas fa-shopping-cart text-2xl text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">عدد الطلبات</p>
+                                <p class="text-2xl font-bold text-green-600" id="totalOrdersCount">0</p>
+                            </div>
+                            <i class="fas fa-list text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">قيد الانتظار</p>
+                                <p class="text-2xl font-bold text-yellow-600" id="pendingOrdersCount">0</p>
+                            </div>
+                            <i class="fas fa-clock text-2xl text-yellow-600"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">تم التسليم</p>
+                                <p class="text-2xl font-bold text-green-600" id="deliveredOrdersCount">0</p>
+                            </div>
+                            <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">ملغاة</p>
+                                <p class="text-2xl font-bold text-red-600" id="cancelledOrdersCount">0</p>
+                            </div>
+                            <i class="fas fa-times-circle text-2xl text-red-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول الطلبات -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200">
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="orderNumber">
+                                        رقم الطلب <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="company">
+                                        الشركة <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="date">
+                                        التاريخ <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="amount">
+                                        المبلغ <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="paymentMethod">
+                                        طريقة الدفع <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="status">
+                                        الحالة <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm">عدد الأدوية</th>
+                                    <th class="text-center py-3 px-4 font-semibold text-gray-700 text-sm">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody" class="divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============= صفحة إنشاء طلب جديد ============= -->
+            <div id="create-order-page" class="page hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">إنشاء طلب جديد</h2>
+                        <p class="text-gray-600 mt-1">اختر شركة، ثم حدد الأدوية والكميات لإنشاء طلبك.</p>
+                    </div>
+                    <button onclick="showPage('orders')" class="text-gray-600 hover:text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-arrow-right ml-2"></i> العودة للطلبات
+                    </button>
+                </div>
+            
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- قائمة الشركات (العمود الأيمن) -->
+                    <div class="lg:col-span-4 xl:col-span-3">
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sticky top-24">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 px-2">الشركات المتاحة</h3>
+                            <div class="space-y-2 max-h-[70vh] overflow-y-auto" id="companiesListContainer">
+                                <div class="text-center py-10 text-gray-500">
+                                    <i class="fas fa-spinner fa-spin text-2xl mb-3"></i>
+                                    <p>جاري تحميل الشركات...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- تفاصيل الشركة والأدوية (العمود الأيسر) -->
+                    <div class="lg:col-span-8 xl:col-span-9">
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                            <div id="companyDetailsContainer">
+                                <!-- الحالة الافتراضية -->
+                                <div class="text-center p-12 text-gray-500">
+                                    <i class="fas fa-arrow-right text-4xl mb-4 text-gray-300"></i>
+                                    <h3 class="text-lg font-medium text-gray-700">اختر شركة من القائمة</h3>
+                                    <p class="text-sm mt-1">لعرض الأدوية المتاحة وبدء عملية الطلب.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============= صفحة الطلبات الواردة ============= -->
+            <div id="incoming-orders-page" class="page hidden">
+                <!-- Header Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-1">الطلبات الواردة</h2>
+                            <p class="text-sm text-gray-500">الطلبات المرسلة من الصيدليات إلى المخزن</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <!-- فلاتر -->
+                            <select id="incomingOrderStatusFilter" class="border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">جميع الحالات</option>
+                                <option value="pending">قيد الانتظار</option>
+                                <option value="confirmed">مؤكد</option>
+                                <option value="processing">قيد المعالجة</option>
+                                <option value="shipped">تم الشحن</option>
+                                <option value="delivered">تم التسليم</option>
+                                <option value="cancelled">ملغي</option>
+                            </select>
+                            
+                            <!-- شريط البحث -->
+                            <div class="relative">
+                                <input type="text" 
+                                       id="incomingOrderSearchInput" 
+                                       placeholder="ابحث برقم الطلب..." 
+                                       class="w-64 pr-10 pl-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                                <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                            
+                            <!-- زر إعادة تعيين -->
+                            <button id="resetIncomingOrderFiltersBtn" class="px-3 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- إحصائيات الطلبات الواردة -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-6 mb-6">
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">إجمالي الطلبات</p>
+                                <p class="text-2xl font-bold text-gray-900" id="totalIncomingOrdersAmount">0 جنيه</p>
+                            </div>
+                            <i class="fas fa-shopping-cart text-2xl text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">عدد الطلبات</p>
+                                <p class="text-2xl font-bold text-green-600" id="totalIncomingOrdersCount">0</p>
+                            </div>
+                            <i class="fas fa-list text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">قيد الانتظار</p>
+                                <p class="text-2xl font-bold text-yellow-600" id="pendingIncomingOrdersCount">0</p>
+                            </div>
+                            <i class="fas fa-clock text-2xl text-yellow-600"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">تم التسليم</p>
+                                <p class="text-2xl font-bold text-green-600" id="deliveredIncomingOrdersCount">0</p>
+                            </div>
+                            <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">ملغاة</p>
+                                <p class="text-2xl font-bold text-red-600" id="cancelledIncomingOrdersCount">0</p>
+                            </div>
+                            <i class="fas fa-times-circle text-2xl text-red-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول الطلبات الواردة -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200">
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="orderNumber">
+                                        رقم الطلب <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="pharmacy">
+                                        الصيدلية <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="date">
+                                        التاريخ <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="amount">
+                                        المبلغ <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="paymentMethod">
+                                        طريقة الدفع <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm cursor-pointer" data-sort="status">
+                                        الحالة <i class="fas fa-sort text-gray-400 ml-1"></i>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700 text-sm">عدد الأدوية</th>
+                                    <th class="text-center py-3 px-4 font-semibold text-gray-700 text-sm">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="incomingOrdersTableBody" class="divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============= صفحة تفاصيل الشركة ============= -->
+            <div id="company-details-page" class="page hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">تفاصيل الشركة</h2>
+                        <p class="text-gray-600 mt-1" id="companyDetailName">جارٍ تحميل تفاصيل الشركة...</p>
+                    </div>
+                    <button onclick="showPage('orders')" class="btn-secondary px-4 py-2 rounded-lg font-medium">
+                        <i class="fas fa-arrow-right ml-2"></i> العودة للطلبات
+                    </button>
+                </div>
+
+                <!-- معلومات الشركة -->
+                <div class="bg-white rounded-lg card p-6 mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">معلومات الشركة</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <p class="text-sm text-gray-600">اسم الشركة</p>
+                                    <p class="font-medium" id="companyDetailCompanyName">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">البريد الإلكتروني</p>
+                                    <p class="font-medium" id="companyDetailEmail">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">رقم الهاتف</p>
+                                    <p class="font-medium" id="companyDetailPhone">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">العنوان</p>
+                                    <p class="font-medium" id="companyDetailAddress">-</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg">
+                            <p class="text-sm">عدد الأدوية</p>
+                            <p class="text-2xl font-bold text-center" id="companyMedicinesCount">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- أدوية الشركة -->
+                <div class="bg-white rounded-lg card p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">الأدوية المتاحة</h3>
+                        <button onclick="openCreateOrderModal()" class="btn-primary text-white px-4 py-2 rounded-lg font-medium">
+                            <i class="fas fa-plus ml-2"></i> إنشاء طلب
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-gray-200">
+                                    <th class="text-right py-3 px-4 font-medium text-gray-600">
+                                        <input type="checkbox" id="selectAllMedicines" onchange="toggleAllMedicines(this.checked)">
+                                        <label for="selectAllMedicines" class="mr-2">تحديد الكل</label>
+                                    </th>
+                                    <th class="text-right py-3 px-4 font-medium text-gray-600">اسم الدواء</th>
+                                    <th class="text-right py-3 px-4 font-medium text-gray-600">الصنف</th>
+                                    <th class="text-right py-3 px-4 font-medium text-gray-600">الكمية المتوفرة</th>
+                                    <th class="text-right py-3 px-4 font-medium text-gray-600">السعر للوحدة</th>
+                                    <th class="text-right py-3 px-4 font-medium text-gray-600">تاريخ الانتهاء</th>
+                                    <th class="text-right py-3 px-4 font-medium text-gray-600">الكمية المطلوبة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="companyMedicinesTableBody">
+                                <tr>
+                                    <td colspan="7" class="text-center py-8 text-gray-500">
+                                        <i class="fas fa-spinner fa-spin text-2xl mb-3"></i>
+                                        <p>جاري تحميل الأدوية...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-4 flex justify-end">
+                        <button onclick="createOrderFromSelectedMedicines()" class="btn-primary text-white px-6 py-2 rounded-lg font-medium">
+                            <i class="fas fa-shopping-cart ml-2"></i> طلب الأدوية المحددة
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============= صفحة استرجاع الأدوية ============= -->
+            <div id="returns-page" class="page hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">استرجاع الأدوية</h2>
+                        <p class="text-gray-600 mt-1">إدارة طلبات استرجاع الأدوية للشركات</p>
+                    </div>
+                    <button onclick="openNewReturnModal()" 
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                        <i class="fas fa-plus ml-2"></i>طلب استرجاع جديد
+                    </button>
+                </div>
+
+                <!-- كروت الإحصائيات -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-lg card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">إجمالي الطلبات</p>
+                                <p class="text-2xl font-bold text-gray-900" id="totalReturnsCount">0</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-list text-blue-600 text-xl"></i>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">قيد الانتظار</p>
+                                <p class="text-2xl font-bold text-yellow-600" id="pendingReturnsCount">0</p>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg card p-6">
+                        <div class="flex items-center justify-between">
+                        <div>
+                                <p class="text-sm text-gray-600 mb-1">مقبولة</p>
+                                <p class="text-2xl font-bold text-green-600" id="approvedReturnsCount">0</p>
+                        </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg card p-6 border-2 border-blue-200">
+                        <div class="flex items-center justify-between">
+                        <div>
+                                <p class="text-sm text-gray-600 mb-1">إجمالي قيمة الاسترجاعات</p>
+                                <p class="text-2xl font-bold text-blue-600" id="totalReturnsValue">0.00 جنيه</p>
+                        </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-money-bill-wave text-blue-600 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- فلاتر -->
+                <div class="bg-white rounded-lg card p-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الحالة</label>
+                            <select id="returnStatusFilter" onchange="filterReturns()" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">الكل</option>
+                                <option value="pending">قيد الانتظار</option>
+                                <option value="approved">موافق عليه</option>
+                                <option value="rejected">مرفوض</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">نوع الاسترجاع</label>
+                            <select id="returnTypeFilter" onchange="filterReturns()" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">الكل</option>
+                                <option value="damaged">تالف</option>
+                                <option value="expired">منتهي الصلاحية</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الشركة</label>
+                            <select id="returnCompanyFilter" onchange="filterReturns()" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">الكل</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">البحث</label>
+                            <input type="text" 
+                                   id="returnSearchInput" 
+                                   placeholder="ابحث عن طلب استرجاع..."
+                                   onkeyup="filterReturns()"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول الاسترجاعات -->
+                <div class="bg-white rounded-lg card overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700">رقم الطلب</th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700">الشركة</th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700">نوع الاسترجاع</th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700">عدد الأدوية</th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700">القيمة الإجمالية</th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700">الحالة</th>
+                                    <th class="text-right py-3 px-4 font-semibold text-gray-700">التاريخ</th>
+                                    <th class="text-center py-3 px-4 font-semibold text-gray-700">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="returnsTableBody">
+                                <tr>
+                                    <td colspan="8" class="text-center py-12 text-gray-500">
+                                        <i class="fas fa-spinner fa-spin text-2xl mb-3"></i>
+                                        <p>جاري تحميل طلبات الاسترجاع...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                        </div>
+                   
+            <!-- ============= صفحة الشات ============= -->
+            <div id="chat-page" class="page hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 h-[calc(100vh-200px)] flex flex-col">
+                    <div class="flex h-full">
+                        <!-- قائمة المحادثات -->
+                        <div class="w-1/3 border-l border-gray-200 bg-gray-50 flex flex-col">
+                            <div class="p-4 border-b border-gray-200">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h2 class="text-xl font-bold text-gray-900">المحادثات</h2>
+                                    <button onclick="openNewChatModal()" 
+                                            class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
+                                            title="محادثة جديدة">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                    </div>
+                                <input type="text" 
+                                       id="chatSearchInput" 
+                                       placeholder="ابحث عن محادثة..."
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                       onkeyup="filterConversations(this.value)">
+                            </div>
+                            <div id="conversationsList" class="flex-1 overflow-y-auto">
+                                <div class="text-center py-12 text-gray-500">
+                                    <i class="fas fa-comments text-4xl mb-3"></i>
+                                    <p>جاري تحميل المحادثات...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- منطقة الشات -->
+                        <div class="flex-1 flex flex-col">
+                            <!-- معلومات المحادثة -->
+                            <div id="chatHeader" class="p-4 border-b border-gray-200 bg-white">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-user text-blue-600"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900" id="chatParticipantName">اختر محادثة</h3>
+                                            <p class="text-xs text-gray-500" id="chatParticipantType"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- الرسائل -->
+                            <div id="chatMessages" class="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4">
+                                <div class="text-center py-12 text-gray-500">
+                                    <i class="fas fa-comments text-4xl mb-3"></i>
+                                    <p>اختر محادثة لعرض الرسائل</p>
+                                </div>
+                            </div>
+                            
+                            <!-- إدخال الرسالة -->
+                            <div id="chatInputContainer" class="p-4 border-t border-gray-200 bg-white hidden">
+                                <div class="flex gap-2">
+                                    <input type="text" 
+                                           id="chatMessageInput" 
+                                           placeholder="اكتب رسالتك..."
+                                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                           onkeypress="handleChatMessageKeyPress(event)">
+                                    <button onclick="sendChatMessage()" 
+                                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                        <i class="fas fa-paper-plane ml-2"></i>إرسال
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ============= صفحة التواصل ============= -->
+            <div id="contact-page" class="page hidden">
+                <!-- Header -->
+                <div class="mb-8 text-center">
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full">
+                            <i class="fas fa-comments text-blue-600 text-xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-900">تواصل معنا</h2>
+                    </div>
+                    <p class="text-gray-500 max-w-xl mx-auto">نحن هنا لمساعدتك. أرسل رسالتك وسنقوم بالرد عليك في أقرب وقت</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    <!-- نموذج إرسال رسالة -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                            <form id="contactForm">
+                                <div class="space-y-5">
+                                    <!-- نوع الرسالة -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-3">نوع الرسالة</label>
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <label class="relative cursor-pointer">
+                                                <input type="radio" name="messageType" value="مشكلة" required class="peer sr-only">
+                                                <div class="bg-white border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-red-500 peer-checked:bg-red-50 hover:border-gray-300">
+                                                    <div class="text-2xl mb-1">🔴</div>
+                                                    <div class="text-sm font-medium text-gray-700">مشكلة تقنية</div>
+                                                </div>
+                                            </label>
+                                            <label class="relative cursor-pointer">
+                                                <input type="radio" name="messageType" value="طلب" required class="peer sr-only">
+                                                <div class="bg-white border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300">
+                                                    <div class="text-2xl mb-1">📝</div>
+                                                    <div class="text-sm font-medium text-gray-700">طلب خدمة</div>
+                                                </div>
+                                            </label>
+                                            <label class="relative cursor-pointer">
+                                                <input type="radio" name="messageType" value="استفسار" required class="peer sr-only">
+                                                <div class="bg-white border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:border-gray-300">
+                                                    <div class="text-2xl mb-1">❓</div>
+                                                    <div class="text-sm font-medium text-gray-700">استفسار</div>
+                                                </div>
+                                            </label>
+                                            <label class="relative cursor-pointer">
+                                                <input type="radio" name="messageType" value="اقتراح" required class="peer sr-only">
+                                                <div class="bg-white border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-yellow-500 peer-checked:bg-yellow-50 hover:border-gray-300">
+                                                    <div class="text-2xl mb-1">💡</div>
+                                                    <div class="text-sm font-medium text-gray-700">اقتراح</div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- الموضوع -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">الموضوع</label>
+                                        <input type="text" name="subject" required maxlength="100" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all" placeholder="موضوع الرسالة">
+                                    </div>
+                                    
+                                    <!-- الرسالة -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">الرسالة</label>
+                                        <textarea name="message" required rows="6" maxlength="1000" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all resize-none" placeholder="اشرح مشكلتك أو طلبك بالتفصيل..."></textarea>
+                                        <p class="text-xs text-gray-400 mt-1.5">الحد الأقصى: 1000 حرف</p>
+                                    </div>
+                                    
+                                    <!-- الأولوية -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-3">الأولوية</label>
+                                        <div class="flex gap-3">
+                                            <label class="flex-1 cursor-pointer">
+                                                <input type="radio" name="priority" value="عادية" checked class="peer sr-only">
+                                                <div class="bg-white border-2 border-gray-200 rounded-xl px-4 py-2.5 text-center transition-all peer-checked:border-gray-400 peer-checked:bg-gray-50">
+                                                    <span class="text-sm font-medium text-gray-700">عادية</span>
+                                                </div>
+                                            </label>
+                                            <label class="flex-1 cursor-pointer">
+                                                <input type="radio" name="priority" value="عالية" class="peer sr-only">
+                                                <div class="bg-white border-2 border-gray-200 rounded-xl px-4 py-2.5 text-center transition-all peer-checked:border-orange-500 peer-checked:bg-orange-50">
+                                                    <span class="text-sm font-medium text-orange-600">عالية</span>
+                                                </div>
+                                            </label>
+                                            <label class="flex-1 cursor-pointer">
+                                                <input type="radio" name="priority" value="عاجلة" class="peer sr-only">
+                                                <div class="bg-white border-2 border-gray-200 rounded-xl px-4 py-2.5 text-center transition-all peer-checked:border-red-500 peer-checked:bg-red-50">
+                                                    <span class="text-sm font-medium text-red-600">عاجلة</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- الأزرار -->
+                                <div class="flex gap-3 mt-8">
+                                    <button type="submit" class="flex-1 bg-blue-600 text-white py-3.5 rounded-xl font-medium hover:bg-blue-700 transition-all shadow-sm hover:shadow-md">
+                                        <i class="fas fa-paper-plane ml-2"></i>إرسال الرسالة
+                                    </button>
+                                    <button type="reset" class="px-6 bg-gray-100 text-gray-600 py-3.5 rounded-xl font-medium hover:bg-gray-200 transition-all">
+                                        إعادة تعيين
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- رسائلي السابقة -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-6">
+                            <div class="flex items-center justify-between mb-5">
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    <i class="fas fa-inbox text-blue-600 ml-2"></i>رسائلي
+                                </h3>
+                                <span class="text-xs bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full font-medium" id="messagesCount">0</span>
+                            </div>
+                            <div id="myMessagesContainer" class="space-y-2.5 max-h-[500px] overflow-y-auto custom-scrollbar">
+                                <div class="text-center py-12">
+                                    <div class="text-5xl mb-3">📨</div>
+                                    <p class="text-sm text-gray-400">لا توجد رسائل سابقة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============= النماذج (Modals) ============= -->
+    
+    <!-- نموذج إضافة دواء -->
+    <div id="addMedicineModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 modal p-4">
+        <div class="bg-white rounded-xl p-4 md:p-6 w-full max-w-2xl mx-auto modal-content shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">إضافة دواء جديد</h3>
+                <button onclick="closeAddMedicineModal()" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="addMedicineForm">
+                <div class="space-y-4">
+                    <!-- البيانات الأساسية -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">اسم الدواء</label>
+                            <i class="fas fa-pills absolute right-3 top-10 text-gray-400"></i>
+                            <input type="text" name="name" required class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الاسم بالإنجليزية</label>
+                            <i class="fas fa-language absolute right-3 top-10 text-gray-400"></i>
+                            <input type="text" name="englishName" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الباركود الدولي</label>
+                            <i class="fas fa-barcode absolute right-3 top-10 text-gray-400"></i>
+                            <input type="text" name="barcode" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+
+                    <!-- الكمية والسعر -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الكمية</label>
+                            <i class="fas fa-boxes absolute right-3 top-10 text-gray-400"></i>
+                            <input type="number" name="quantity" required class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">السعر</label>
+                            <i class="fas fa-dollar-sign absolute right-3 top-10 text-gray-400"></i>
+                            <input type="number" name="price" step="0.01" required class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">نسبة الخصم (%)</label>
+                            <i class="fas fa-percentage absolute right-3 top-10 text-gray-400"></i>
+                            <input type="number" name="discountPercentage" step="0.01" min="0" max="100" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+
+                    <!-- التصنيف والشركة -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الشركة المنتجة</label>
+                            <i class="fas fa-building absolute right-3 top-10 text-gray-400 z-10"></i>
+                            <select name="company" id="companySelect" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none transition">
+                                <option value="">اختر الشركة</option>
+                            </select>
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الصنف</label>
+                            <i class="fas fa-tag absolute right-3 top-10 text-gray-400"></i>
+                            <input type="text" name="category" placeholder="اكتب الصنف هنا..." class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+
+                    <!-- تاريخ الانتهاء وعدد الأشرطة -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">تاريخ الانتهاء</label>
+                            <i class="fas fa-calendar-alt absolute right-3 top-10 text-gray-400"></i>
+                            <input type="date" name="expiryDate" required class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">عدد الأشرطة</label>
+                            <i class="fas fa-grip-horizontal absolute right-3 top-10 text-gray-400"></i>
+                            <input type="number" name="stripQuantity" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+                    
+                    <!-- ملاحظات -->
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ملاحظات</label>
+                        <i class="fas fa-sticky-note absolute right-3 top-10 text-gray-400"></i>
+                        <textarea name="notes" rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3 mt-8 pt-4 border-t border-gray-200">
+                    <button type="submit" class="flex-1 bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-all shadow-sm hover:shadow-md">
+                        <i class="fas fa-save ml-2"></i>حفظ
+                    </button>
+                    <button type="button" onclick="closeAddMedicineModal()" class="flex-1 bg-gray-100 text-gray-700 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition-all">
+                        إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- نموذج تعديل دواء -->
+    <div id="editMedicineModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 modal p-4">
+        <div class="bg-white rounded-xl p-4 md:p-6 w-full max-w-2xl mx-auto modal-content shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">تعديل بيانات الدواء</h3>
+                <button onclick="closeEditMedicineModal()" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="editMedicineForm">
+                <input type="hidden" name="id" id="editMedicineId">
+                <div class="space-y-4">
+                    <!-- البيانات الأساسية -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">اسم الدواء</label>
+                            <i class="fas fa-pills absolute right-3 top-10 text-gray-400"></i>
+                            <input type="text" name="name" id="editMedicineName" required class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الاسم بالإنجليزية</label>
+                            <i class="fas fa-language absolute right-3 top-10 text-gray-400"></i>
+                            <input type="text" name="englishName" id="editMedicineEnglishName" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الباركود الدولي</label>
+                            <i class="fas fa-barcode absolute right-3 top-10 text-gray-400"></i>
+                            <input type="text" name="barcode" id="editMedicineBarcode" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+
+                    <!-- الكمية والسعر -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الكمية</label>
+                            <i class="fas fa-boxes absolute right-3 top-10 text-gray-400"></i>
+                            <input type="number" name="quantity" id="editMedicineQuantity" required class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">السعر</label>
+                            <i class="fas fa-dollar-sign absolute right-3 top-10 text-gray-400"></i>
+                            <input type="number" name="price" id="editMedicinePrice" step="0.01" required class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">نسبة الخصم (%)</label>
+                            <i class="fas fa-percentage absolute right-3 top-10 text-gray-400"></i>
+                            <input type="number" name="discountPercentage" id="editMedicineDiscountPercentage" step="0.01" min="0" max="100" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+
+                    <!-- التصنيف والشركة -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الشركة المنتجة</label>
+                            <i class="fas fa-building absolute right-3 top-10 text-gray-400 z-10"></i>
+                            <select name="company" id="editMedicineCompany" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none transition">
+                                <option value="">اختر الشركة</option>
+                            </select>
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الصنف</label>
+                            <i class="fas fa-tag absolute right-3 top-10 text-gray-400"></i>
+                            <input type="text" name="category" id="editMedicineCategory" placeholder="اكتب الصنف هنا..." class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+
+                    <!-- تاريخ الانتهاء وعدد الأشرطة -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">تاريخ الانتهاء</label>
+                            <i class="fas fa-calendar-alt absolute right-3 top-10 text-gray-400"></i>
+                            <input type="date" name="expiryDate" id="editMedicineExpiryDate" required class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">عدد الأشرطة</label>
+                            <i class="fas fa-grip-horizontal absolute right-3 top-10 text-gray-400"></i>
+                            <input type="number" name="stripQuantity" id="editMedicineStripQuantity" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+                    
+                    <!-- ملاحظات -->
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ملاحظات</label>
+                        <i class="fas fa-sticky-note absolute right-3 top-10 text-gray-400"></i>
+                        <textarea name="notes" id="editMedicineNotes" rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-lg pr-10 pl-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3 mt-8 pt-4 border-t border-gray-200">
+                    <button type="submit" class="flex-1 bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-all shadow-sm hover:shadow-md">
+                        <i class="fas fa-save ml-2"></i>حفظ التعديلات
+                    </button>
+                    <button type="button" onclick="closeEditMedicineModal()" class="flex-1 bg-gray-100 text-gray-700 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition-all">
+                        إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ملف مخفي لاستيراد البيانات -->
+    <input type="file" id="importFileInput" accept=".csv,.json,.xlsx" style="display: none;" onchange="handleFileImport(event)">
+
+    <!-- نموذج إضافة شركة -->
+    <div id="addCompanyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 modal p-4">
+        <div class="bg-white rounded-xl p-4 md:p-6 w-full max-w-2xl mx-auto modal-content shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">إضافة شركة جديدة</h3>
+                <button onclick="closeAddCompanyModal()" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="addCompanyForm">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">اسم الشركة</label>
+                        <input type="text" name="name" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني</label>
+                        <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">رقم التليفون</label>
+                        <input type="tel" name="phone" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">العنوان</label>
+                        <textarea name="address" rows="3" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3 space-x-reverse mt-6">
+                    <button type="submit" class="flex-1 btn-primary text-white py-2 rounded-lg font-medium">حفظ</button>
+                    <button type="button" onclick="closeAddCompanyModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-400">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- نموذج تعديل شركة -->
+    <div id="editCompanyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 modal p-4">
+        <div class="bg-white rounded-xl p-4 md:p-6 w-full max-w-2xl mx-auto modal-content shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">تعديل بيانات الشركة</h3>
+                <button onclick="closeEditCompanyModal()" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="editCompanyForm">
+                <input type="hidden" name="id" id="editCompanyId">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">اسم الشركة</label>
+                        <input type="text" name="name" id="editCompanyName" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني</label>
+                        <input type="email" name="email" id="editCompanyEmail" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">رقم التليفون</label>
+                        <input type="tel" name="phone" id="editCompanyPhone" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">العنوان</label>
+                        <textarea name="address" id="editCompanyAddress" rows="3" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3 space-x-reverse mt-6">
+                    <button type="submit" class="flex-1 btn-primary text-white py-2 rounded-lg font-medium">حفظ التعديلات</button>
+                    <button type="button" onclick="closeEditCompanyModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-400">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- نموذج تسجيل الدفع -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 modal p-4">
+        <div class="bg-white rounded-xl p-4 md:p-6 w-full max-w-2xl mx-auto modal-content shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">تسجيل الدفع</h3>
+                <button onclick="closePaymentModal()" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="paymentForm">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">رقم الطلب</label>
+                        <select name="orderId" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">اختر الطلب</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">طريقة الدفع</label>
+                        <select name="paymentMethod" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">اختر طريقة الدفع</option>
+                            <option value="كاش (نقداً)">كاش (نقداً)</option>
+                            <option value="آجل">آجل</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">المبلغ المدفوع</label>
+                        <input type="number" name="amount" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ملاحظات</label>
+                        <textarea name="notes" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3 space-x-reverse mt-6">
+                    <button type="submit" class="flex-1 btn-primary text-white py-2 rounded-lg font-medium">حفظ</button>
+                    <button type="button" onclick="closePaymentModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-400">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============= ملفات JavaScript ============= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/cache-manager.js"></script>
+    <script src="js/pagination.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/supabase-integration.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/password-migration.js"></script>
+    <script src="js/ui-responsive.js"></script>
+    <script src="js/data-loader.js"></script>
+    <script src="js/discounts-manager.js"></script>
+    <script src="js/orders-management.js"></script>
+    <script src="js/modal-manager.js"></script>
+    <script src="js/data-manager.js"></script>
+    <script src="js/dashboard-stats.js"></script>
+    <script src="js/loading-indicators.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/form-validation.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/medicine-filter.js"></script>
+    <script src="js/messages.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/returns.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/app-init.js"></script>
+    <script src="js/modal-functions.js"></script>
+</body>
+</html>
